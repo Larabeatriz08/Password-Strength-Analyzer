@@ -1,5 +1,5 @@
 # Password-Strength-Analyzer
-Analisador moderno de força de senhas com interface cyberpunk.
+Analisador moderno de força de senhas.
 
 
 
