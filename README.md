@@ -1,4 +1,4 @@
-# Password-Strength-Analyzer
+# Password Strength Analyzer
 Analisador moderno de força de senhas.
 
 
