@@ -7,7 +7,9 @@ import {
   TriangleAlert,
   LockKeyhole,
   CheckCircle2,
-  XCircle
+  XCircle,
+  Eye,
+  EyeOff
 } from "lucide-react";
 
 import { motion } from "framer-motion";
@@ -15,6 +17,7 @@ import { motion } from "framer-motion";
 export default function Home() {
   const [password, setPassword] = useState("");
   const [typedText, setTypedText] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const title = "Password Strength Analyzer";
 
@@ -186,7 +189,7 @@ export default function Home() {
   const analysis = analyzePassword();
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white flex items-center justify-center px-6 py-10 overflow-hidden">
+    <main className="min-h-screen bg-[#050505] text-white flex items-center justify-center px-6 py-10 overflow-x-hidden">
       <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full"></div>
 
       <motion.div
@@ -198,7 +201,7 @@ export default function Home() {
         <div className="flex items-center gap-3 mb-3">
           <ShieldCheck className="text-cyan-400" size={34} />
 
-          <h1 className="text-4xl font-bold min-h-[48px]">
+          <h1 className="text-3xl md:text-4xl font-bold min-h-[48px]">
             {typedText}
           </h1>
         </div>
@@ -214,12 +217,26 @@ export default function Home() {
               size={20}
             />
 
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-cyan-400 transition"
+            >
+              {
+                showPassword ? (
+                  <EyeOff size={20} />
+                ) : (
+                  <Eye size={20} />
+                )
+              }
+            </button>
+
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Enter your password..."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl pl-12 pr-4 py-4 outline-none focus:border-cyan-400/40 transition"
+              className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl pl-12 pr-12 py-4 outline-none focus:border-cyan-400/40 transition text-sm md:text-base"
             />
           </div>
 
@@ -236,10 +253,10 @@ export default function Home() {
             <span>{analysis.strength}</span>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/5"
+              className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/5 transition-all duration-300"
             >
               <p className="text-zinc-400 text-sm mb-1">
                 Tempo estimado de quebra
@@ -252,7 +269,7 @@ export default function Home() {
 
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/5"
+              className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/5 transition-all duration-300"
             >
               <p className="text-zinc-400 text-sm mb-1">
                 Entropia da senha
@@ -264,7 +281,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
+          <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5 transition-all duration-300">
             <h3 className="text-lg font-semibold mb-4">
               Análise de segurança
             </h3>
@@ -332,7 +349,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
+          <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5 transition-all duration-300">
             <h3 className="text-lg font-semibold mb-4">
               Vulnerabilidades
             </h3>
@@ -356,7 +373,7 @@ export default function Home() {
             }
           </div>
 
-          <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
+          <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5 transition-all duration-300">
             <h3 className="text-lg font-semibold mb-4">
               Sugestões
             </h3>
