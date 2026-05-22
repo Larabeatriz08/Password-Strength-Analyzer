@@ -2,6 +2,16 @@
 
 import { useEffect, useState } from "react";
 
+import {
+  ShieldCheck,
+  TriangleAlert,
+  LockKeyhole,
+  CheckCircle2,
+  XCircle
+} from "lucide-react";
+
+import { motion } from "framer-motion";
+
 export default function Home() {
   const [password, setPassword] = useState("");
   const [typedText, setTypedText] = useState("");
@@ -85,9 +95,15 @@ export default function Home() {
       }
     }
 
-    let strength = "Fraca";
-    let color = "from-red-500 to-red-400";
-    let width = "25%";
+    let strength = "";
+    let color = "from-transparent to-transparent";
+    let width = "0%";
+
+    if (password.length > 0) {
+      strength = "Fraca";
+      color = "from-red-500 to-red-400";
+      width = "25%";
+    }
 
     if (score >= 3) {
       strength = "Média";
@@ -170,30 +186,49 @@ export default function Home() {
   const analysis = analyzePassword();
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-6 py-10">
-      <div className="w-full max-w-2xl bg-[#111111] border border-white/10 rounded-3xl p-8 shadow-2xl">
-        <h1 className="text-4xl font-bold mb-3 min-h-[48px]">
-          {typedText}
-        </h1>
+    <main className="min-h-screen bg-[#050505] text-white flex items-center justify-center px-6 py-10 overflow-hidden">
+      <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full"></div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        className="relative w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl"
+      >
+        <div className="flex items-center gap-3 mb-3">
+          <ShieldCheck className="text-cyan-400" size={34} />
+
+          <h1 className="text-4xl font-bold min-h-[48px]">
+            {typedText}
+          </h1>
+        </div>
 
         <p className="text-zinc-400 mb-8">
           Analise a força da sua senha em tempo real com indicadores modernos de segurança.
         </p>
 
         <div className="space-y-5">
-          <input
-            type="password"
-            placeholder="Enter your password..."
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-white/30 transition"
-          />
+          <div className="relative">
+            <LockKeyhole
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"
+              size={20}
+            />
+
+            <input
+              type="password"
+              placeholder="Enter your password..."
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl pl-12 pr-4 py-4 outline-none focus:border-cyan-400/40 transition"
+            />
+          </div>
 
           <div className="w-full h-4 bg-[#1a1a1a] rounded-full overflow-hidden">
-            <div
-              className={`h-full bg-gradient-to-r ${analysis.color} rounded-full transition-all duration-700 ease-in-out shadow-lg`}
-              style={{ width: analysis.width }}
-            ></div>
+            <motion.div
+              className={`h-full bg-gradient-to-r ${analysis.color} rounded-full shadow-lg`}
+              animate={{ width: analysis.width }}
+              transition={{ duration: 0.6 }}
+            ></motion.div>
           </div>
 
           <div className="flex justify-between text-sm text-zinc-400">
@@ -202,7 +237,10 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/5">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/5"
+            >
               <p className="text-zinc-400 text-sm mb-1">
                 Tempo estimado de quebra
               </p>
@@ -210,9 +248,12 @@ export default function Home() {
               <h2 className="text-lg font-semibold">
                 {analysis.crackTime}
               </h2>
-            </div>
+            </motion.div>
 
-            <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/5">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/5"
+            >
               <p className="text-zinc-400 text-sm mb-1">
                 Entropia da senha
               </p>
@@ -220,7 +261,7 @@ export default function Home() {
               <h2 className="text-lg font-semibold">
                 {analysis.entropy} bits
               </h2>
-            </div>
+            </motion.div>
           </div>
 
           <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
@@ -228,46 +269,66 @@ export default function Home() {
               Análise de segurança
             </h3>
 
-            <div className="space-y-2 text-sm">
-              <p>
-                Letras maiúsculas:
-                {" "}
-                <span className={analysis.hasUppercase ? "text-green-400" : "text-red-400"}>
-                  {analysis.hasUppercase ? "Yes" : "No"}
-                </span>
-              </p>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center justify-between">
+                <span>Letras maiúsculas</span>
 
-              <p>
-                Letras minúsculas:
-                {" "}
-                <span className={analysis.hasLowercase ? "text-green-400" : "text-red-400"}>
-                  {analysis.hasLowercase ? "Yes" : "No"}
-                </span>
-              </p>
+                {
+                  analysis.hasUppercase ? (
+                    <CheckCircle2 className="text-green-400" size={20} />
+                  ) : (
+                    <XCircle className="text-red-400" size={20} />
+                  )
+                }
+              </div>
 
-              <p>
-                Números:
-                {" "}
-                <span className={analysis.hasNumber ? "text-green-400" : "text-red-400"}>
-                  {analysis.hasNumber ? "Yes" : "No"}
-                </span>
-              </p>
+              <div className="flex items-center justify-between">
+                <span>Letras minúsculas</span>
 
-              <p>
-                Caracteres especiais:
-                {" "}
-                <span className={analysis.hasSpecial ? "text-green-400" : "text-red-400"}>
-                  {analysis.hasSpecial ? "Yes" : "No"}
-                </span>
-              </p>
+                {
+                  analysis.hasLowercase ? (
+                    <CheckCircle2 className="text-green-400" size={20} />
+                  ) : (
+                    <XCircle className="text-red-400" size={20} />
+                  )
+                }
+              </div>
 
-              <p>
-                Vazamento detectado:
-                {" "}
-                <span className={analysis.leaked ? "text-red-400" : "text-green-400"}>
-                  {analysis.leaked ? "Yes" : "No"}
-                </span>
-              </p>
+              <div className="flex items-center justify-between">
+                <span>Números</span>
+
+                {
+                  analysis.hasNumber ? (
+                    <CheckCircle2 className="text-green-400" size={20} />
+                  ) : (
+                    <XCircle className="text-red-400" size={20} />
+                  )
+                }
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span>Caracteres especiais</span>
+
+                {
+                  analysis.hasSpecial ? (
+                    <CheckCircle2 className="text-green-400" size={20} />
+                  ) : (
+                    <XCircle className="text-red-400" size={20} />
+                  )
+                }
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span>Senha vazada</span>
+
+                {
+                  analysis.leaked ? (
+                    <TriangleAlert className="text-red-400" size={20} />
+                  ) : (
+                    <CheckCircle2 className="text-green-400" size={20} />
+                  )
+                }
+              </div>
             </div>
           </div>
 
@@ -319,7 +380,7 @@ export default function Home() {
             }
           </div>
         </div>
-      </div>
+      </motion.div>
     </main>
   );
 }
