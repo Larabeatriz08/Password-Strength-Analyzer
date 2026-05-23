@@ -4,7 +4,7 @@
 
 O Password Strength Analyzer é uma aplicação web moderna desenvolvida com foco em segurança digital, experiência do usuário e análise inteligente de senhas em tempo real.
 
-O projeto simula uma ferramenta profissional de cibersegurança inspirada em plataformas modernas de segurança e privacy tech, oferecendo uma interface premium, responsiva e interativa.
+O projeto simula uma ferramenta profissional de cibersegurança inspirada em plataformas modernas de segurança e privacy tech, oferecendo uma interface premium e interativa.
 
 A aplicação realiza múltiplas análises de segurança instantaneamente enquanto o usuário digita, fornecendo feedback visual, recomendações e métricas avançadas sobre a força da senha.
 
@@ -18,8 +18,6 @@ Desenvolvido utilizando:
   <li>Framer Motion</li>
   <li>Lucide React</li>
 </ul>
-
-O principal objetivo do projeto é demonstrar habilidades em desenvolvimento front-end moderno, UI/UX, animações interativas e construção de aplicações com foco em experiência visual e segurança digital.
 
 
 
